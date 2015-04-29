@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="inMemory" class="com.dwolla.testutils.logging.InMemoryAppender"/>
+
+    <root level="info">
+        <appender-ref ref="inMemory"/>
+    </root>
+</configuration>
