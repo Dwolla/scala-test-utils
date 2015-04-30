@@ -58,3 +58,31 @@ the multiple tests are being multiplexed onto the same thread.)
 
 Using the [TypeSafe ScalaLogging](https://github.com/typesafehub/scala-logging) library is unnecessary, but it does
 provide a nice Scala wrapper around the Javitude of LogBack and SLF4J.
+
+## System Properties
+
+Sometimes it’s helpful to test how your code reacts to different system property values. The `SystemPropertiesChangeGuard`
+allows your code to change the values at-will, while isolating tests from each other. This includes restoring existing 
+properties and clearing previously unset ones. Please note that the isolation only works when the tests are run 
+sequentially, since ultimately they are all sharing the same global state.
+
+Here is an example of a test using the utility. Note that the tests in this class are marked with the `sequential` keyword.
+
+    package com.dwolla.utils.proxy
+    
+    import java.lang.System
+    import com.dwolla.testutils.systemproperties.SystemPropertiesChangeGuard
+    
+    class HttpProxySettingsSpec extends org.specs2.mutable.Specification {
+
+      sequential
+      "HttpProxySettings" should {
+        "return none if http.proxySet is false" >> {
+          SystemPropertiesChangeGuard.saveExisting("http.proxySet") {
+            System.setProperty("http.proxySet", "false")
+
+            MaybeHttpProxySettings() must_== None
+          }
+        }
+      }
+    }
