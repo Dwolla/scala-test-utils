@@ -10,8 +10,7 @@ import scala.sys.SystemProperties
 object SystemPropertiesChangeGuard {
   def saveExisting[R: CommandLineAsResult](keys: String*)(functionToBeWrapped: => R): R = {
     val props = new SystemProperties
-    val settings: Map[String, Option[String]] =
-      keys.map(k => k -> props.get(k)).toMap
+    val settings = keys.map(k => k -> props.get(k)).toMap
 
     try {
       functionToBeWrapped
