@@ -66,7 +66,32 @@ allows your code to change the values at-will, while isolating tests from each o
 properties and clearing previously unset ones. Please note that the isolation only works when the tests are run 
 sequentially, since ultimately they are all sharing the same global state.
 
-Here is an example of a test using the utility. Note that the tests in this class are marked with the `sequential` keyword.
+Here is an example of a test using the utility. Note that the tests in this class are marked with the `sequential`
+keyword.
+
+    package com.dwolla.utils.proxy
+    
+    import java.lang.System
+    import com.dwolla.testutils.systemproperties.SystemPropertiesChangeGuard._
+    
+    class HttpProxySettingsSpec extends org.specs2.mutable.Specification {
+
+      sequential
+      "HttpProxySettings" should {
+        "return none if http.proxySet is false" >> {
+          withSystemProperties("http.proxySet" -> "false", "http.proxyHost" -> None) {
+            MaybeHttpProxySettings() must_== None
+          }
+        }
+      }
+    }
+
+Also note that to enable the syntax above (with pairs of both types `String -> String` and `String -> Option[String]` in
+one vararg), the `SystemPropertiesChangeGuard.string2OptionString` needs to be imported. In the above example, this is 
+covered by the wildcard import `import com.dwolla.testutils.systemproperties.SystemPropertiesChangeGuard._`
+
+It may be better to split caching the values and setting them to something new, in which case the `saveExisting` partial
+function is for you.
 
     package com.dwolla.utils.proxy
     

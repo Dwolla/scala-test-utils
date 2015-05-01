@@ -4,14 +4,16 @@ import java.lang.System._
 
 import org.specs2.main.CommandLineAsResult
 
+import scala.language.implicitConversions
+import scala.sys.SystemProperties
+
 object SystemPropertiesChangeGuard {
-  def saveExisting[R : CommandLineAsResult](keys: String*)(f: => R): R = {
-    val props = new scala.sys.SystemProperties
-    val settings: Map[String, Option[String]] =
-      keys.map(k => k -> props.get(k)).toMap
+  def saveExisting[R: CommandLineAsResult](keys: String*)(functionToBeWrapped: => R): R = {
+    val props = new SystemProperties
+    val settings = keys.map(k => k -> props.get(k)).toMap
 
     try {
-      f
+      functionToBeWrapped
     } finally {
       settings.foreach {
         case (k, None) => clearProperty(k)
@@ -19,4 +21,19 @@ object SystemPropertiesChangeGuard {
       }
     }
   }
+
+  def withSystemProperties[R: CommandLineAsResult](props: (String, Option[String])*)(functionToBeWrapped: => R): R = {
+    saveExisting(props.map { case (key, _) => key }: _*) {
+      props.foreach {
+        case (key, maybeValue) => maybeValue match {
+          case Some(value) => setProperty(key, value)
+          case None => clearProperty(key)
+        }
+      }
+
+      functionToBeWrapped
+    }
+  }
+
+  implicit def string2OptionString(k: String): Option[String] = Option(k)
 }
