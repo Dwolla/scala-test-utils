@@ -111,3 +111,28 @@ function is for you.
         }
       }
     }
+
+## Java `InputStream`s
+
+### `CloseTrackingInputStream`
+
+`CloseTrackingInputStream` proxies another `java.io.InputStream` instance and tracks whether it has been closed. The class 
+exposes a `isClosed` method. A matcher and DSL method are also provided.
+
+    package com.dwolla.testutils.examples
+    
+    import com.dwolla.testutils.javaio.{CloseTrackingInputStream, IsClosedMatchers}
+    import org.specs2.mutable.Specification
+    import java.io.ByteArrayInputStream
+
+    class CloseTrackingInputStreamSpec extends Specification with IsClosedMatchers {
+      "CloseTrackingInputStream" should {
+    
+        "keep track of whether the proxied inputstream has been closed" >> {
+          val stream = new CloseTrackingInputStream(new ByteArrayInputStream(Array()))
+          stream must not(beClosed)
+          stream.close()
+          stream must beClosed
+        }
+      }
+    }
