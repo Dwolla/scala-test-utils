@@ -1,5 +1,9 @@
 # Scala Test Utilities
 
+[![Travis](https://img.shields.io/travis/Dwolla/scala-test-utils.svg?style=flat-square)](https://travis-ci.org/Dwolla/scala-test-utils)
+[![Bintray](https://img.shields.io/bintray/v/dwolla/maven/testutils.svg?style=flat-square)](https://bintray.com/dwolla/maven/testutils/view)
+[![license](https://img.shields.io/github/license/Dwolla/scala-test-utils.svg?style=flat-square)]()
+
 ## Logging
 
 The `com.dwolla.testutils.logging` package provides hooks into LogBack so that your tests can verify specific logging
@@ -136,3 +140,58 @@ exposes a `isClosed` method. A matcher and DSL method are also provided.
         }
       }
     }
+
+## Concurrency
+
+### `scala.concurrency.blocking` Function Calls
+
+To ensure that the code under test invokes the `scala.concurrency.blocking` function, use the `BlockingMatcher`.
+    
+    import com.dwolla.testutils.concurrency.BlockingMatcher.invokeBlockingFunction
+    import org.specs2.concurrent.{ExecutionEnv, NoImplicitExecutionContextFromExecutionEnv}
+    import org.specs2.mutable.Specification
+    
+    import scala.concurrent.{ExecutionContext, Future, blocking}
+
+    class BlockingMatcherSpec(implicit ee: ExecutionEnv) extends Specification with NoImplicitExecutionContextFromExecutionEnv {
+      "blocking" should {
+        "be blocked" in {
+          { implicit ec: ExecutionContext ⇒
+            Future {
+              blocking {
+                Thread.sleep(100)
+              }
+            }
+          } must invokeBlockingFunction
+        }
+      }
+    }
+
+This test will pass as long as the `blocking` function is called, but will fail otherwise.
+
+### Promise Completion
+
+    import com.dwolla.testutils.concurrency.PromiseMatchers.beCompleted
+
+    val promise = Promise[Unit]
+    promise must beCompleted
+
+## Akka
+
+### `AkkaTestKitSpecs2Support`
+
+Use the `AkkaTestKitSpecs2Support` class for the test case’s scope to make an `ActorSystem` available with an optional `Config`. The `ActorSystem` will be shutdown automatically after the test run.
+
+    class TestSpec extends Specification {
+      "test" should {
+        "have access to an ActorSystem" in new AkkaTestKitSpecs2Support {
+          …
+        }
+      }
+    }
+
+## Test Exceptions
+
+### `NoStackTraceException`
+
+Use `NoStackTraceException` whenever an intentionally-thrown exception is required in a test case. The exception will not have a stack trace and contains a message indicating it was intentionally thrown, keeping any logging that occurs much simpler.

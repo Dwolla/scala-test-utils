@@ -8,6 +8,7 @@ import concurrent.Future
 
 class FutureSpecificationSpec extends Specification with Mockito {
 
+  //noinspection ScalaDeprecation
   trait Setup extends Scope {
     val classToTest = new FutureSpecification {}
   }
