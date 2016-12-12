@@ -1,19 +1,9 @@
-import java.lang.System.getenv
-
-lazy val buildVersion = {
-  val mainVersion = "1.1"
-  val minorVersion = Option(getenv("TRAVIS_BUILD_NUMBER"))
-  minorVersion match {
-    case Some(v: String) ⇒ s"$mainVersion.$v"
-    case None ⇒ mainVersion + "-SNAPSHOT"
-  }
-}
-
 lazy val buildSettings = Seq(
   name := "TestUtils",
-  version := buildVersion,
+  version := "1.2.0",
   organization := "com.dwolla",
   scalaVersion := "2.11.8",
+  crossScalaVersions := Seq("2.11.8", "2.12.1"),
   scalacOptions ++= Seq("-feature"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   description := "Test utilities for Scala projects",
@@ -21,19 +11,18 @@ lazy val buildSettings = Seq(
   startYear := Option(2015),
 
   libraryDependencies ++= {
-    val specs2Version = "[3.3,)"
+    val specs2Version = "3.8.6"
     val akkaVersion = "[2.4,)"
     Seq(
-      "ch.qos.logback"              %  "logback-classic"            % "[1.1.3,)",
+      "ch.qos.logback"              %  "logback-classic"            % "1.1.7",
       "org.specs2"                  %% "specs2-core"                % specs2Version,
-      "com.typesafe.akka"           %% "akka-actor"                 % akkaVersion % Compile,
-      "com.typesafe.akka"           %% "akka-testkit"               % akkaVersion % Compile,
+      "com.typesafe.akka"           %% "akka-actor"                 % akkaVersion           % Compile,
+      "com.typesafe.akka"           %% "akka-testkit"               % akkaVersion           % Compile,
       "org.specs2"                  %% "specs2-mock"                % specs2Version         % Test,
       "org.specs2"                  %% "specs2-matcher-extra"       % specs2Version         % Test,
-      "com.typesafe.scala-logging"  %% "scala-logging"              % "3.4.0"               % Test
+      "com.typesafe.scala-logging"  %% "scala-logging"              % "3.5.0"               % Test
     )
   }
-
 )
 
 lazy val bintraySettings = Seq(
