@@ -1,10 +1,10 @@
 lazy val buildSettings = Seq(
   name := "TestUtils",
-  version := "1.2.0",
+  version := "1.3.0",
   organization := "com.dwolla",
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.12.1",
   crossScalaVersions := Seq("2.11.8", "2.12.1"),
-  scalacOptions ++= Seq("-feature"),
+  scalacOptions ++= Seq("-feature", "-deprecation"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   description := "Test utilities for Scala projects",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
@@ -16,9 +16,9 @@ lazy val buildSettings = Seq(
     Seq(
       "ch.qos.logback"              %  "logback-classic"            % "1.1.7",
       "org.specs2"                  %% "specs2-core"                % specs2Version,
+      "org.specs2"                  %% "specs2-mock"                % specs2Version         % Provided,
       "com.typesafe.akka"           %% "akka-actor"                 % akkaVersion           % Compile,
       "com.typesafe.akka"           %% "akka-testkit"               % akkaVersion           % Compile,
-      "org.specs2"                  %% "specs2-mock"                % specs2Version         % Test,
       "org.specs2"                  %% "specs2-matcher-extra"       % specs2Version         % Test,
       "com.typesafe.scala-logging"  %% "scala-logging"              % "3.5.0"               % Test
     )
