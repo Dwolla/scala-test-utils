@@ -195,3 +195,20 @@ Use the `AkkaTestKitSpecs2Support` class for the test case’s scope to make an 
 ### `NoStackTraceException`
 
 Use `NoStackTraceException` whenever an intentionally-thrown exception is required in a test case. The exception will not have a stack trace and contains a message indicating it was intentionally thrown, keeping any logging that occurs much simpler.
+
+## Mocking
+
+### `WithBehavior`
+
+Adds an implicit conversion that allows you to write this:
+
+```scala
+val mockFile = mock[File]
+mockFile.getCanonicalPath returns "path"
+```
+
+like this:
+
+```scala
+val mockFile = mock[File] withBehavior (_.getCanonicalPath returns "path")
+```
