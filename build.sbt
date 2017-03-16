@@ -1,6 +1,6 @@
 lazy val buildSettings = Seq(
   name := "TestUtils",
-  version := "1.3.0",
+  version := "1.4.0",
   organization := "com.dwolla",
   scalaVersion := "2.12.1",
   crossScalaVersions := Seq("2.11.8", "2.12.1"),
