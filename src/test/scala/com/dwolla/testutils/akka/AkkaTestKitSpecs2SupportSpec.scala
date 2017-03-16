@@ -7,7 +7,8 @@ import org.specs2.mutable.{After, Specification}
 import org.specs2.specification.Scope
 import concurrent.duration._
 
-class AkkaTestKitSpecs2SupportSpec(implicit ee: ExecutionEnv) extends Specification {
+class AkkaTestKitSpecs2SupportSpec extends Specification {
+  implicit val ee = ExecutionEnv.fromGlobalExecutionContext
 
   trait ShutdownActorSystemAfterTest extends After {
     val testClass: AkkaTestKitSpecs2Support
@@ -42,6 +43,25 @@ class AkkaTestKitSpecs2SupportSpec(implicit ee: ExecutionEnv) extends Specificat
       testClass.after
 
       testClass.system.whenTerminated must beAnInstanceOf[Terminated].awaitFor(2.seconds)
+    }
+  }
+}
+
+class AkkaTestKitSpecs2SupportWithoutImplicitExecutionEnvSpec extends Specification {
+  "AkkaTestKitSpecs2Support" should {
+
+    "run without an implicit ExecutionEnv in scope" in new Scope {
+      val testClass = new AkkaTestKitSpecs2Support()
+
+      testClass.after
+    }
+
+    "run with an implicit ExecutionEnv in scope" in new Scope {
+      implicit val ee = ExecutionEnv.fromGlobalExecutionContext
+
+      val testClass = new AkkaTestKitSpecs2Support()
+
+      testClass.after
     }
   }
 }
