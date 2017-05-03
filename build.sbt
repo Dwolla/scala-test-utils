@@ -8,6 +8,20 @@ lazy val buildSettings = Seq(
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   description := "Test utilities for Scala projects",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
+  releaseVersionBump := sbtrelease.Version.Bump.Minor,
+  releaseProcess := {
+    import ReleaseTransformations._
+    Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    )
+  },
   startYear := Option(2015),
 
   libraryDependencies ++= {
