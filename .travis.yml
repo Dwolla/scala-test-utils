@@ -1,20 +1,31 @@
 language: scala
 
 scala:
-  - 2.11.8
-  - 2.12.1
+- 2.11.8
+- 2.12.1
+
+env:
+  global:
+  - secure: "Zrqn8sQAqgy7NfVGXwQ6XcKF5riCRQJC9MKzqhT80g+RTX8NfkccjF42xWsxfXjQixpxIItYmFWZDtcgH6yrqJLHS488b+yBNHzg1f6mDfQoPstf01OWWZRLOV25A/wKW2Y8lfKexvTHaUudhZAEkpcfRSKaGLqxqDV+4/iRAxSDeknauWD3V2qi2rUmxVdeFwKk4aPMprxQZj104hDok1nBH580M/Oy3c2fq+0YcSV9qDI4BtzGn6TbDZ0YEOq7/BORlQBLzS6hAnHib2Nn2iUg4+AKb8FFphGNJuIY8jLa0WWmcJY/jkLb+NgoQg9TT0fo0qOoefUABEZsIdiShr2s2nFqroBjucOzdXBqTv9DFJE8M815/wmvVJe4lcukMs3ePlYZ7wrr8pcmNQpuXl4rCklRsAHqbX7F0poi3tlSSb0KQY86Ky2dLDc6hwtU73dhAw/K8MPE4Vvl44F2VkLPd9KXUpBHuWcfYtceS4cF3X3ZRoD4c1nGp+dS3Z9nUne023l+oTPVkvuLPiK3UI1fg4/qktUOTN16SU87VFzIT7yAfipSdukmNoxzfzibTNgefVN7Y5Wvvt6LtTtJhy57M6hccmipyjVpvoJyhgA/tJOLCfAjRRI7RpBtec1MUIFpg8uqy2gFmHxdJat50unloCy/S7hwPgx4FGspvAw="
 
 script: sbt ++$TRAVIS_SCALA_VERSION test
 
 before_deploy:
-  - mkdir -p $HOME/.bintray
-  - openssl aes-256-cbc -K $encrypted_ba8b6e0b5d99_key -iv $encrypted_ba8b6e0b5d99_iv -in .credentials.enc -out $HOME/.bintray/.credentials -d
+- mkdir -p $HOME/.bintray
+- openssl aes-256-cbc -K $encrypted_30b060b1770b_key -iv $encrypted_30b060b1770b_iv -in .travis/credentials.enc -out $HOME/.bintray/.credentials -d
 
 deploy:
-  provider: script
-  script: sbt ++$TRAVIS_SCALA_VERSION publish
+- provider: script
+  script: ".travis/release.sh"
   on:
     branch: master
+    scala: 2.12.1
+    condition: $(git log -n1 --format=format:"%an") != "Dwolla Bot"
+- provider: script
+  script: sbt ++$TRAVIS_SCALA_VERSION publish
+  on:
+    tags: true
+    condition: $(git log -n1 --format=format:"%an") == "Dwolla Bot"
 
 jdk:
-  - oraclejdk8
+- oraclejdk8
