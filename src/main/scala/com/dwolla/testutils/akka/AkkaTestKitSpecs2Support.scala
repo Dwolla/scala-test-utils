@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit, TestKitBase}
 import com.typesafe.config.Config
 import org.specs2.concurrent.ExecutionEnv
-import org.specs2.mutable.After
+import org.specs2.specification.After
 
 import scala.annotation.tailrec
 
