@@ -3,8 +3,9 @@ package com.dwolla.testutils.akka
 import akka.actor.Terminated
 import com.typesafe.config.{ConfigFactory, ConfigValueFactory}
 import org.specs2.concurrent.ExecutionEnv
-import org.specs2.mutable.{After, Specification}
-import org.specs2.specification.Scope
+import org.specs2.mutable.Specification
+import org.specs2.specification.{After, Scope}
+
 import concurrent.duration._
 
 class AkkaTestKitSpecs2SupportSpec extends Specification {
