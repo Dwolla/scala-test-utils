@@ -10,19 +10,7 @@ lazy val commonSettings = Seq(
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   releaseVersionBump := sbtrelease.Version.Bump.Minor,
-  releaseProcess := {
-    import ReleaseTransformations._
-    Seq[ReleaseStep](
-      checkSnapshotDependencies,
-      inquireVersions,
-      setReleaseVersion,
-      commitReleaseVersion,
-      tagRelease,
-      setNextVersion,
-      commitNextVersion,
-      pushChanges
-    )
-  },
+  releaseCrossBuild := true,
   startYear := Option(2015),
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
   bintrayRepository := "maven",
