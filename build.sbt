@@ -25,7 +25,6 @@ lazy val commonSettings = Seq(
   },
   startYear := Option(2015),
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
-  publishMavenStyle := false,
   bintrayRepository := "maven",
   bintrayOrganization := Option("dwolla"),
   pomIncludeRepository := { _ ⇒ false }
