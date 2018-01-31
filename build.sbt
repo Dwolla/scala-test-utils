@@ -24,13 +24,6 @@ lazy val commonSettings = Seq(
     )
   },
   startYear := Option(2015),
-
-  libraryDependencies ++= {
-    Seq(
-      logback,
-    )
-  },
-
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
   publishMavenStyle := false,
   bintrayRepository := "maven",
@@ -39,13 +32,28 @@ lazy val commonSettings = Seq(
 )
 
 lazy val core = (project in file("core"))
+  .settings(commonSettings: _*)
   .settings(
     name := baseName,
     description := "Test utilities for Scala projects",
+    libraryDependencies += logback,
   )
+
+lazy val scalaTestFs2 = (project in file("scalatest-fs2"))
   .settings(commonSettings: _*)
+  .settings(
+    name := s"$baseName-scalatest-fs2",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      scalaTest,
+      fs2Core,
+      fs2Io,
+      catsEffect,
+    ),
+  )
 
 lazy val specs2Akka = (project in file("specs2-akka"))
+  .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-specs2-akka",
     description := "Test utilities for Scala projects",
@@ -57,6 +65,7 @@ lazy val specs2Akka = (project in file("specs2-akka"))
   .dependsOn(specs2)
 
 lazy val specs2 = (project in file("specs2"))
+  .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-specs2",
     description := "Test utilities for Scala projects",
@@ -71,4 +80,4 @@ lazy val specs2 = (project in file("specs2"))
 
 lazy val scalaTestUtils = (project in file("."))
   .settings(commonSettings: _*)
-  .aggregate(core, specs2, specs2Akka)
+  .aggregate(core, specs2, specs2Akka, scalaTestFs2)
