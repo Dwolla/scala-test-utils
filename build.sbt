@@ -1,11 +1,13 @@
-lazy val buildSettings = Seq(
-  name := "TestUtils",
+import Dependencies._
+
+lazy val baseName = "TestUtils"
+
+lazy val commonSettings = Seq(
   organization := "com.dwolla",
   scalaVersion := "2.12.4",
   crossScalaVersions := Seq("2.12.4", "2.11.11"),
   scalacOptions ++= Seq("-feature", "-deprecation"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
-  description := "Test utilities for Scala projects",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   releaseVersionBump := sbtrelease.Version.Bump.Minor,
   releaseProcess := {
@@ -24,20 +26,11 @@ lazy val buildSettings = Seq(
   startYear := Option(2015),
 
   libraryDependencies ++= {
-    import Dependencies._
     Seq(
       logback,
-      specs2Core,
-      specs2Mock % Provided,
-      akkaActor % Compile,
-      akkaTestKit % Compile,
-      specs2Matchers % Test,
-      scalaLogging % Test,
     )
-  }
-)
+  },
 
-lazy val bintraySettings = Seq(
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
   publishMavenStyle := false,
   bintrayRepository := "maven",
@@ -45,5 +38,37 @@ lazy val bintraySettings = Seq(
   pomIncludeRepository := { _ ⇒ false }
 )
 
-val app = (project in file("."))
-  .settings(buildSettings ++ bintraySettings: _*)
+lazy val core = (project in file("core"))
+  .settings(
+    name := baseName,
+    description := "Test utilities for Scala projects",
+  )
+  .settings(commonSettings: _*)
+
+lazy val specs2Akka = (project in file("specs2-akka"))
+  .settings(
+    name := s"$baseName-specs2-akka",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      akkaActor,
+      akkaTestKit,
+    ),
+  )
+  .dependsOn(specs2)
+
+lazy val specs2 = (project in file("specs2"))
+  .settings(
+    name := s"$baseName-specs2",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      specs2Core,
+      specs2Mock % Provided,
+      specs2Matchers % Test,
+      scalaLogging % Test,
+    ),
+  )
+  .dependsOn(core)
+
+lazy val scalaTestUtils = (project in file("."))
+  .settings(commonSettings: _*)
+  .aggregate(core, specs2, specs2Akka)
