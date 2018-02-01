@@ -1,50 +1,70 @@
-lazy val buildSettings = Seq(
-  name := "TestUtils",
+import Dependencies._
+
+lazy val baseName = "TestUtils"
+
+lazy val commonSettings = Seq(
   organization := "com.dwolla",
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.11.8", "2.12.1"),
+  scalaVersion := "2.12.4",
+  crossScalaVersions := Seq("2.12.4", "2.11.11"),
   scalacOptions ++= Seq("-feature", "-deprecation"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
-  description := "Test utilities for Scala projects",
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   releaseVersionBump := sbtrelease.Version.Bump.Minor,
-  releaseProcess := {
-    import ReleaseTransformations._
-    Seq[ReleaseStep](
-      checkSnapshotDependencies,
-      inquireVersions,
-      setReleaseVersion,
-      commitReleaseVersion,
-      tagRelease,
-      setNextVersion,
-      commitNextVersion,
-      pushChanges
-    )
-  },
+  releaseCrossBuild := true,
   startYear := Option(2015),
-
-  libraryDependencies ++= {
-    val specs2Version = "3.8.6"
-    val akkaVersion = "[2.4,)"
-    Seq(
-      "ch.qos.logback"              %  "logback-classic"            % "1.1.7",
-      "org.specs2"                  %% "specs2-core"                % specs2Version,
-      "org.specs2"                  %% "specs2-mock"                % specs2Version         % Provided,
-      "com.typesafe.akka"           %% "akka-actor"                 % akkaVersion           % Compile,
-      "com.typesafe.akka"           %% "akka-testkit"               % akkaVersion           % Compile,
-      "org.specs2"                  %% "specs2-matcher-extra"       % specs2Version         % Test,
-      "com.typesafe.scala-logging"  %% "scala-logging"              % "3.5.0"               % Test
-    )
-  }
-)
-
-lazy val bintraySettings = Seq(
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
-  publishMavenStyle := false,
   bintrayRepository := "maven",
   bintrayOrganization := Option("dwolla"),
   pomIncludeRepository := { _ ⇒ false }
 )
 
-val app = (project in file("."))
-  .settings(buildSettings ++ bintraySettings: _*)
+lazy val core = (project in file("core"))
+  .settings(commonSettings: _*)
+  .settings(
+    name := baseName,
+    description := "Test utilities for Scala projects",
+    libraryDependencies += logback,
+  )
+
+lazy val scalaTestFs2 = (project in file("scalatest-fs2"))
+  .settings(commonSettings: _*)
+  .settings(
+    name := s"$baseName-scalatest-fs2",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      scalaTest,
+      fs2Core,
+      fs2Io,
+      catsEffect,
+    ),
+  )
+
+lazy val specs2Akka = (project in file("specs2-akka"))
+  .settings(commonSettings: _*)
+  .settings(
+    name := s"$baseName-specs2-akka",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      akkaActor,
+      akkaTestKit,
+    ),
+  )
+  .dependsOn(specs2)
+
+lazy val specs2 = (project in file("specs2"))
+  .settings(commonSettings: _*)
+  .settings(
+    name := s"$baseName-specs2",
+    description := "Test utilities for Scala projects",
+    libraryDependencies ++= Seq(
+      specs2Core,
+      specs2Mock % Provided,
+      specs2Matchers % Test,
+      scalaLogging % Test,
+    ),
+  )
+  .dependsOn(core)
+
+lazy val scalaTestUtils = (project in file("."))
+  .settings(commonSettings: _*)
+  .aggregate(core, specs2, specs2Akka, scalaTestFs2)
