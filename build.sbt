@@ -4,6 +4,7 @@ lazy val baseName = "TestUtils"
 
 lazy val commonSettings = Seq(
   organization := "com.dwolla",
+  description := "Test utilities for Scala projects",
   scalaVersion := "2.12.4",
   crossScalaVersions := Seq("2.12.4", "2.11.11"),
   scalacOptions ++= Seq("-feature", "-deprecation"),
@@ -22,28 +23,27 @@ lazy val core = (project in file("core"))
   .settings(commonSettings: _*)
   .settings(
     name := baseName,
-    description := "Test utilities for Scala projects",
     libraryDependencies += logback,
   )
 
-lazy val scalaTestFs2 = (project in file("scalatest-fs2"))
+lazy val scalaTestFs2 = (sbtcrossproject.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
   .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-scalatest-fs2",
-    description := "Test utilities for Scala projects",
     libraryDependencies ++= Seq(
-      scalaTest,
-      fs2Core,
-      fs2Io,
-      catsEffect,
+      scalaTest.value,
+      fs2Core.value,
+      catsEffect.value,
     ),
   )
+
+lazy val scalaTestFs2JVM = scalaTestFs2.jvm
+lazy val scalaTestFs2JS = scalaTestFs2.js
 
 lazy val specs2Akka = (project in file("specs2-akka"))
   .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-specs2-akka",
-    description := "Test utilities for Scala projects",
     libraryDependencies ++= Seq(
       akkaActor,
       akkaTestKit,
@@ -55,7 +55,6 @@ lazy val specs2 = (project in file("specs2"))
   .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-specs2",
-    description := "Test utilities for Scala projects",
     libraryDependencies ++= Seq(
       specs2Core,
       specs2Mock % Provided,
@@ -67,4 +66,12 @@ lazy val specs2 = (project in file("specs2"))
 
 lazy val scalaTestUtils = (project in file("."))
   .settings(commonSettings: _*)
-  .aggregate(core, specs2, specs2Akka, scalaTestFs2)
+  .settings(noPublishSettings: _*)
+  .aggregate(core, specs2, specs2Akka, scalaTestFs2JVM, scalaTestFs2JS)
+
+lazy val noPublishSettings = Seq(
+  publish := {},
+  publishLocal := {},
+  publishArtifact := false,
+  Keys.`package` := file(""),
+)
