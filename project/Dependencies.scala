@@ -1,3 +1,4 @@
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import sbt._
 
 object Dependencies {
@@ -8,8 +9,7 @@ object Dependencies {
   val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaActor.revision
   val specs2Matchers = "org.specs2" %% "specs2-matcher-extra" % specs2Core.revision
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4"
-  val fs2Core = "co.fs2" %% "fs2-core" % "0.10.0"
-  val fs2Io = "co.fs2" %% "fs2-io" % fs2Core.revision
-  val catsEffect = "org.typelevel" %% "cats-effect" % "0.8"
+  val scalaTest = Def.setting("org.scalatest" %%% "scalatest" % "3.0.4")
+  val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "0.10.2")
+  val catsEffect = Def.setting("org.typelevel" %%% "cats-effect" % "0.8")
 }
