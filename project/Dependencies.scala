@@ -14,4 +14,5 @@ object Dependencies {
 
   private val catsEffectVersion = "0.10.1"
   val catsEffect = Def.setting("org.typelevel" %%% "cats-effect" % catsEffectVersion)
+  val catsEffectLaws = Def.setting("org.typelevel" %%% "cats-effect-laws" % catsEffectVersion)
 }
