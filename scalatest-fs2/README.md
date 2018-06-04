@@ -31,3 +31,37 @@ class IoExampleTest extends IOSpec with org.scalatest.Matchers {
 ```
 
 The helper code will convert the `IO[Assertion]` to a `Future[Assertion]` and hand it to ScalaTest for evaluation.
+
+## State Helpers
+
+The `filterForSomeValue` and `filterForNoValue` methods can be used with a `StateT[F, ?, Option[?]]`, where you want to write a test that will deal with the `Some(_)` or `None` case, respectively. Writing a pattern match that applies to only one of the cases will cause a compiler warning, but the helper methods keep the warnings clean.
+
+So instead of 
+
+```scala
+val stateMonadOutput = ("state", Option("output"))
+for {
+  (state, Some(output)) ← IO(stateMonadOutput)
+} yield {
+  state should be("state")
+  output should be("output")
+}
+```
+
+which would cause a warning indicating that `None` would cause a `MatchError`, use this instead:
+
+```scala
+val stateMonadOutput = ("state", Option("output"))
+for {
+  (state, output) ← filterForSomeValue(IO(stateMonadOutput))
+} yield {
+  state should be("state")
+  output should be("output")
+}
+```
+
+Note that the syntax above requires the [better-monadic-for](https://github.com/oleg-py/better-monadic-for) compiler plugin.
+
+## Concurrency Helpers
+
+`Pledge[F, A]` can be used as a pure-functional form of `scala.concurrent.Promise[A]`, and `completeThePledgeOnCancel` is a helper to construct a `Fiber[F, Unit]`, the cancelation of which will complete the given `Pledge[F, ?]`. This can be used to assert that a fiber obtained the normal way would be canceled if a timeout occurs, for example, without having to actually wait for a timeout.

@@ -5,8 +5,6 @@ lazy val baseName = "TestUtils"
 lazy val commonSettings = Seq(
   organization := "com.dwolla",
   description := "Test utilities for Scala projects",
-  scalaVersion := "2.12.4",
-  crossScalaVersions := Seq("2.12.4", "2.11.11"),
   scalacOptions ++= Seq("-feature", "-deprecation"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
@@ -34,7 +32,12 @@ lazy val scalaTestFs2 = (sbtcrossproject.crossProject(JVMPlatform, JSPlatform) c
       scalaTest.value,
       fs2Core.value,
       catsEffect.value,
+      catsEffectLaws.value,
     ),
+    dependencyOverrides ++= Seq(
+      catsEffect.value,
+    ),
+    addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.2.1"),
   )
 
 lazy val scalaTestFs2JVM = scalaTestFs2.jvm
