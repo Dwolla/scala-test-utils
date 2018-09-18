@@ -21,7 +21,10 @@ lazy val core = (project in file("core"))
   .settings(commonSettings: _*)
   .settings(
     name := baseName,
-    libraryDependencies += logback,
+    libraryDependencies ++= Seq(
+      logback,
+      specs2Core % Test
+    )
   )
 
 lazy val scalaTestFs2 = (sbtcrossproject.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
