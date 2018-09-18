@@ -14,7 +14,9 @@ trait Fakes {
 
   def string(length: Int = 10): String = Random.alphanumeric.take(length).mkString
 
-  def url(): String = s"http${if (bool()) "s"}://${string()}.${tld()}"
+  def url(): String = url(bool())
+
+  def url(secure: Boolean) = s"${if (secure) "https" else "http" }://${string()}.${tld()}"
 
   def email(): String = s"${string(5)}@${string(5)}.${tld()}"
 
@@ -36,5 +38,5 @@ trait Fakes {
 
   def bigDecimal(): BigDecimal = BigDecimal(double())
 
-  private def tld() = Tlds(int(Tlds.length))
+  def tld() = Tlds(int(Tlds.length))
 }
