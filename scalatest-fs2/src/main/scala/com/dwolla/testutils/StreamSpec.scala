@@ -1,10 +1,11 @@
 package com.dwolla.testutils
 
-import cats.effect.IO
+import cats.effect._
 import org.scalactic.source
-import org.scalatest.{AsyncFlatSpecLike, Matchers, compatible}
+import org.scalatest.{Matchers, compatible}
+import org.scalatest.flatspec.AsyncFlatSpecLike
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.language.{higherKinds, implicitConversions, reflectiveCalls}
 
 trait StreamSpec extends IOSpec with Matchers {
@@ -26,6 +27,11 @@ trait StreamSpec extends IOSpec with Matchers {
 }
 
 trait IOSpec extends AsyncFlatSpecLike {
+
+  override implicit def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+  implicit val timer: Timer[IO] = IO.timer(executionContext)
+  implicit val cs: ContextShift[IO] = IO.contextShift(executionContext)
+
   implicit def toInIO[B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: B) = new InIO(any)
 
   implicit def toInIO[A, B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: A)(implicit aToB: A ⇒ B) = new InIO(aToB(any))
