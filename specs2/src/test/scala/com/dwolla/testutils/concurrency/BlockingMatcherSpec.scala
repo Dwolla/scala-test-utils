@@ -13,7 +13,7 @@ class BlockingMatcherSpec(implicit ee: ExecutionEnv) extends Specification with 
 
   "BlockingAssertions" should {
     "fail a test when the blocking keyword is called for but not used in the implementation" in new Setup {
-      { implicit ec: ExecutionContext ⇒
+      { implicit ec: ExecutionContext =>
         Future {
           Thread.sleep(100)
         }
@@ -21,7 +21,7 @@ class BlockingMatcherSpec(implicit ee: ExecutionEnv) extends Specification with 
     }
 
     "succeed when the blocking keyword is called for and used in the implementation" in new Setup {
-      { implicit ec: ExecutionContext ⇒
+      { implicit ec: ExecutionContext =>
         Future {
           blocking {
             Thread.sleep(100)

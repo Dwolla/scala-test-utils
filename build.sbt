@@ -14,7 +14,7 @@ lazy val commonSettings = Seq(
   bintrayVcsUrl := Some("https://github.com/Dwolla/scala-test-utils"),
   bintrayRepository := "maven",
   bintrayOrganization := Option("dwolla"),
-  pomIncludeRepository := { _ ⇒ false }
+  pomIncludeRepository := { _ => false }
 )
 
 lazy val core = (project in file("core"))

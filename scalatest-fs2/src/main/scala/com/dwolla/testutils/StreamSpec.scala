@@ -11,12 +11,12 @@ import scala.language.{higherKinds, implicitConversions, reflectiveCalls}
 trait StreamSpec extends IOSpec with Matchers {
   import fs2._
 
-  implicit def toInStream[B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: B)(implicit pos: source.Position) = new InStream(any)(pos)
+  implicit def toInStream[B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: B)(implicit pos: source.Position) = new InStream(any)(pos)
 
-  implicit def toInStream[A, B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: A)(implicit aToB: A ⇒ B, pos: source.Position) = new InStream(aToB(any))(pos)
+  implicit def toInStream[A, B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: A)(implicit aToB: A => B, pos: source.Position) = new InStream(aToB(any))(pos)
 
-  class InStream[B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](val testDescription: B)(implicit pos: source.Position) {
-    def inStream[F[_]](testStream: ⇒ Stream[F, compatible.Assertion])(implicit F: PureOrIO[F]): Unit = {
+  class InStream[B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](val testDescription: B)(implicit pos: source.Position) {
+    def inStream[F[_]](testStream: => Stream[F, compatible.Assertion])(implicit F: PureOrIO[F]): Unit = {
       new InIO(testDescription) inIO {
         F.ioStream(testStream)
           .compile
@@ -32,12 +32,12 @@ trait IOSpec extends AsyncFlatSpecLike {
   implicit val timer: Timer[IO] = IO.timer(executionContext)
   implicit val cs: ContextShift[IO] = IO.contextShift(executionContext)
 
-  implicit def toInIO[B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: B) = new InIO(any)
+  implicit def toInIO[B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: B) = new InIO(any)
 
-  implicit def toInIO[A, B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: A)(implicit aToB: A ⇒ B) = new InIO(aToB(any))
+  implicit def toInIO[A, B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](any: A)(implicit aToB: A => B) = new InIO(aToB(any))
 
-  class InIO[B <: {def in(fun : ⇒ Future[compatible.Assertion])(implicit pos: source.Position): Unit}](val testDescription: B) {
-    def inIO(testEffect: ⇒ IO[compatible.Assertion]): Unit = {
+  class InIO[B <: {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}](val testDescription: B) {
+    def inIO(testEffect: => IO[compatible.Assertion]): Unit = {
       testDescription in {
         testEffect.unsafeToFuture()
       }

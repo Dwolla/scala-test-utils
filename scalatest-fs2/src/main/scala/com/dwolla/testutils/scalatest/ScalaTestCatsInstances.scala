@@ -7,12 +7,12 @@ import org.scalatest.enablers.Containing
 
 trait ScalaTestCatsInstances {
   implicit def ContainingContravariant: Contravariant[Containing] = new Contravariant[Containing] {
-    override def contramap[A, B](fa: Containing[A])(f: B ⇒ A): Containing[B] = new Containing[B] {
+    override def contramap[A, B](fa: Containing[A])(f: B => A): Containing[B] = new Containing[B] {
       override def contains(container: B, element: Any): Boolean = fa.contains(f(container), element)
 
-      override def containsOneOf(container: B, elements: Seq[Any]): Boolean = fa.containsOneOf(f(container), elements)
+      override def containsOneOf(container: B, elements: scala.collection.Seq[Any]): Boolean = fa.containsOneOf(f(container), elements)
 
-      override def containsNoneOf(container: B, elements: Seq[Any]): Boolean = fa.containsNoneOf(f(container), elements)
+      override def containsNoneOf(container: B, elements: scala.collection.Seq[Any]): Boolean = fa.containsNoneOf(f(container), elements)
     }
   }
 
