@@ -9,7 +9,7 @@ class StateHelpersTest extends IOSpec with StateHelpers with Matchers {
 
   "filterForSomeValue" should "unwrap a Some value returned by the State monad" inIO {
     for {
-      (state, output) ← filterForSomeValue(someTuple)
+      (state, output) <- filterForSomeValue(someTuple)
     } yield {
       state should be("state")
       output should be("output")
@@ -18,15 +18,15 @@ class StateHelpersTest extends IOSpec with StateHelpers with Matchers {
 
   it should "fail if output returned by State monad is None" inIO {
     filterForSomeValue(noneTuple).attempt.map {
-      case Left(ex) ⇒ ex.getMessage should be("The state output tuple was (_, None) but (_, Some(_)) was required")
-      case Right(_) ⇒ fail("the attempt should have failed")
+      case Left(ex) => ex.getMessage should be("The state output tuple was (_, None) but (_, Some(_)) was required")
+      case Right(_) => fail("the attempt should have failed")
     }
   }
 
   "filterForNoValue" should "accept a None value returned by the State monad" inIO {
 
     for {
-      state ← filterForNoValue(noneTuple)
+      state <- filterForNoValue(noneTuple)
     } yield {
       state should be("state")
     }
@@ -34,8 +34,8 @@ class StateHelpersTest extends IOSpec with StateHelpers with Matchers {
 
   it should "fail if output returned by State monad is Some(_)" inIO {
     filterForNoValue(someTuple).attempt.map {
-      case Left(ex) ⇒ ex.getMessage should be("The state output tuple was (_, Some(_)) but (_, None) was required")
-      case Right(_) ⇒ fail("the attempt should have failed")
+      case Left(ex) => ex.getMessage should be("The state output tuple was (_, Some(_)) but (_, None) was required")
+      case Right(_) => fail("the attempt should have failed")
     }
   }
 

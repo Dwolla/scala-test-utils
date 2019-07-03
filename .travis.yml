@@ -1,8 +1,9 @@
 language: scala
 
 scala:
-- 2.11.11
-- 2.12.6
+- 2.11.12
+- 2.13.0
+- 2.12.8
 
 env:
   global:
@@ -14,13 +15,13 @@ before_deploy:
 - mkdir -p $HOME/.bintray
 - openssl aes-256-cbc -K $encrypted_30b060b1770b_key -iv $encrypted_30b060b1770b_iv -in .travis/credentials.enc -out $HOME/.bintray/.credentials -d
 
-deploy:
-- provider: script
-  script: ".travis/release.sh"
-  on:
-    branch: master
-    scala: 2.12.6
-    condition: $(git log -n1 --format=format:"%an") != "Dwolla Bot"
+#deploy:
+#- provider: script
+#  script: ".travis/release.sh"
+#  on:
+#    branch: master
+#    scala: 2.12.8
+#    condition: $(git log -n1 --format=format:"%an") != "Dwolla Bot"
 
 jdk:
-- oraclejdk8
+- openjdk8
