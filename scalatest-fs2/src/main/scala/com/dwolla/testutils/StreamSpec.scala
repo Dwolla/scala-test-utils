@@ -3,7 +3,7 @@ package com.dwolla.testutils
 import cats.effect._
 import org.scalactic.source
 import org.scalatest.{Matchers, compatible}
-import org.scalatest.flatspec.AsyncFlatSpecLike
+import org.scalatest.AsyncFlatSpecLike
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.{higherKinds, implicitConversions, reflectiveCalls}

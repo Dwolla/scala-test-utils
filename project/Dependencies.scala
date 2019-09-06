@@ -12,7 +12,7 @@ object Dependencies {
   val scalaTest = Def.setting("org.scalatest" %%% "scalatest" % "3.0.8")
   val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "1.1.0-M1")
 
-  private val catsEffectVersion = "2.0.0-M4"
+  private val catsEffectVersion = "2.0.0-RC2"
   val catsEffect = Def.setting("org.typelevel" %%% "cats-effect" % catsEffectVersion)
   val catsEffectLaws = Def.setting("org.typelevel" %%% "cats-effect-laws" % catsEffectVersion)
 }
