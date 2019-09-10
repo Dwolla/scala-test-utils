@@ -33,12 +33,10 @@ lazy val scalaTestFs2 = (sbtcrossproject.crossProject(JVMPlatform, JSPlatform) c
     name := s"$baseName-scalatest-fs2",
     libraryDependencies ++= Seq(
       scalaTest.value,
+      scalaCheck.value,
       fs2Core.value,
       catsEffect.value,
       catsEffectLaws.value,
-    ),
-    dependencyOverrides ++= Seq(
-      catsEffect.value,
     ),
     addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.0"),
   )
