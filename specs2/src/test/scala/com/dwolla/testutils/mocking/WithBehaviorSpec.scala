@@ -9,7 +9,7 @@ class WithBehaviorSpec extends Specification with Mockito with WithBehaviorMocki
 
   "Mocks" should {
     "be extensible with behavior" >> {
-      val mockFile = mock[File] withBehavior {_.getCanonicalPath returns "/"}
+      val mockFile = mock[File] withBehavior { file => file.getCanonicalPath returns "/"; ()}
 
       mockFile.getCanonicalPath must_== "/"
     }

@@ -4,8 +4,6 @@ import cats.effect.IO
 import fs2._
 import org.scalatest.compatible.Assertion
 
-import scala.language.higherKinds
-
 sealed trait PureOrIO[T[_]] {
   def ioStream(s: Stream[T, Assertion]): Stream[IO, Assertion]
 }

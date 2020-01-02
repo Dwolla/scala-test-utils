@@ -1,6 +1,6 @@
 package com.dwolla.testutils
 
-class StreamExampleTest extends StreamSpec with org.scalatest.Matchers {
+class StreamExampleTest extends StreamSpec with org.scalatest.matchers.should.Matchers {
 
   "MyGreatCode" should "do something" inStream {
     for {

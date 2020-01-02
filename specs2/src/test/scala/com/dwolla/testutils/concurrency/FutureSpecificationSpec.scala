@@ -6,6 +6,7 @@ import org.specs2.specification.Scope
 
 import concurrent.Future
 
+@deprecated("use Specs2 .await matchers instead", "1.1")
 class FutureSpecificationSpec extends Specification with Mockito {
 
   //noinspection ScalaDeprecation

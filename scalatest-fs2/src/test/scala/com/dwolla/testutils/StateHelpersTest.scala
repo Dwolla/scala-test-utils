@@ -1,7 +1,7 @@
 package com.dwolla.testutils
 
 import cats.effect._
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 class StateHelpersTest extends IOSpec with StateHelpers with Matchers {
   val someTuple = IO(("state", Option("output")))

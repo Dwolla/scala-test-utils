@@ -1,6 +1,6 @@
 package com.dwolla.testutils
 
-class IoExampleTest extends IOSpec with org.scalatest.Matchers {
+class IoExampleTest extends IOSpec with org.scalatest.matchers.should.Matchers {
 
   "MyGreatCode" should "do something" inIO {
     for {

@@ -26,7 +26,7 @@ trait Fakes {
 
   def double(): Double = rnd.nextDouble()
 
-  def float(): Double = rnd.nextFloat()
+  def float(): Double = rnd.nextFloat().toDouble
 
   def int(n: Int): Int = rnd.nextInt(n)
 

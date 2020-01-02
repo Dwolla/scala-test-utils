@@ -5,7 +5,6 @@ import org.specs2.matcher.{Expectable, MatchResult, Matcher}
 
 import scala.concurrent._
 import scala.concurrent.duration._
-import scala.language.postfixOps
 import scala.util.Try
 
 class BlockingMatcher(timeout: Duration = 1 second)(implicit ee: ExecutionEnv) extends Matcher[ExecutionContext => Any] {

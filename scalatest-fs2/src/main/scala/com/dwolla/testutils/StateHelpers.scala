@@ -4,8 +4,6 @@ import cats._
 import cats.implicits._
 import org.scalactic.source
 
-import scala.language.higherKinds
-
 trait StateHelpers { self: IOSpec =>
 
   def filterForSomeValue[F[_] : Functor, S, A](tuple: F[(S, Option[A])])(implicit pos: source.Position): F[(S, A)] = tuple.map {

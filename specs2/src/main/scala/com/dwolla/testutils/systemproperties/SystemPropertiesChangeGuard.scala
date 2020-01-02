@@ -4,7 +4,6 @@ import java.lang.System._
 
 import org.specs2.specification.core.AsExecution
 
-import scala.language.implicitConversions
 import scala.sys.SystemProperties
 
 object SystemPropertiesChangeGuard {

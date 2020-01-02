@@ -2,10 +2,10 @@ package com.dwolla.testutils
 
 import com.dwolla.testutils.scalatest._
 import fs2._
-import org.scalatest.Matchers
-import org.scalatest.FlatSpecLike
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpecLike
 
-class ContainsTest extends FlatSpecLike with Matchers {
+class ContainsTest extends AnyFlatSpecLike with Matchers {
 
   "Contains" should "support fs2.Chunk" in {
     Chunk("hello", "goodbye") should contain("hello")

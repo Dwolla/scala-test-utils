@@ -34,7 +34,7 @@ trait LoggingTest extends SpecificationLike {
         case inMemoryAppender: InMemoryAppender => inMemoryAppender
         case _ => throw new IllegalStateException(s"Is the InMemoryAppender registered with logback in its configuration file with the name $s?")
       }
-      case sub: SubstituteLogger => throw new IllegalStateException("SLF4J is probably still initializing. Is LoggingTest part of the outermost class wrapping your tests?")
+      case _: SubstituteLogger => throw new IllegalStateException("SLF4J is probably still initializing. Is LoggingTest part of the outermost class wrapping your tests?")
       case _ => throw new IllegalStateException("Are you using LogBack logging?")
     }
   }
