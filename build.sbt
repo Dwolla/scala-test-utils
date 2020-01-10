@@ -5,7 +5,6 @@ lazy val baseName = "TestUtils"
 lazy val commonSettings = Seq(
   organization := "com.dwolla",
   description := "Test utilities for Scala projects",
-  scalacOptions ++= Seq("-feature", "-deprecation"),
   homepage := Some(url("https://github.com/Dwolla/scala-test-utils")),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   releaseVersionBump := sbtrelease.Version.Bump.Minor,
@@ -27,7 +26,7 @@ lazy val core = (project in file("core"))
     )
   )
 
-lazy val scalaTestFs2 = (sbtcrossproject.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
+lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
   .settings(commonSettings: _*)
   .settings(
     name := s"$baseName-scalatest-fs2",
@@ -70,12 +69,5 @@ lazy val specs2 = (project in file("specs2"))
 
 lazy val scalaTestUtils = (project in file("."))
   .settings(commonSettings: _*)
-  .settings(noPublishSettings: _*)
+  .settings(skip in publish := true)
   .aggregate(core, specs2, specs2Akka, scalaTestFs2JVM, scalaTestFs2JS)
-
-lazy val noPublishSettings = Seq(
-  publish := {},
-  publishLocal := {},
-  publishArtifact := false,
-  Keys.`package` := file(""),
-)
