@@ -1,7 +1,5 @@
 # Scala Test Utilities
 
-[![Travis](https://img.shields.io/travis/Dwolla/scala-test-utils.svg?style=flat-square)](https://travis-ci.org/Dwolla/scala-test-utils)
-[![Bintray](https://img.shields.io/bintray/v/dwolla/maven/testutils.svg?style=flat-square)](https://bintray.com/dwolla/maven/testutils/view)
 [![license](https://img.shields.io/github/license/Dwolla/scala-test-utils.svg?style=flat-square)]()
 
 See the submodules’ READMEs for more information on what features are available.
