@@ -9,7 +9,7 @@ import scala.util.Try
 
 class BlockingMatcher(timeout: Duration = 1 second)(implicit ee: ExecutionEnv) extends Matcher[ExecutionContext => Any] {
   override def apply[S <: (ExecutionContext) => Any](t: Expectable[S]): MatchResult[S] = {
-    val blocked = Promise[Unit]
+    val blocked = Promise[Unit]()
 
     val oldContext = BlockContext.current
     val myContext = new BlockContext {

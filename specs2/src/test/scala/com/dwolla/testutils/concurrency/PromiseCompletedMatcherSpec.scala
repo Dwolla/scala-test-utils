@@ -9,7 +9,7 @@ import scala.concurrent.Promise
 
 class PromiseCompletedMatcherSpec extends Specification {
   trait Setup extends Scope {
-    val promise = Promise[Unit]
+    val promise = Promise[Unit]()
   }
 
   "PromiseCompletedMatcher" should {
