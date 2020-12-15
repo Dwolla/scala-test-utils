@@ -52,7 +52,8 @@ lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVM
   .settings(
     name := s"$baseName-scalatest-fs2",
     libraryDependencies ++= Seq(
-      scalaTest.value,
+      scalaTestFlatSpec.value,
+      scalaTestShouldMatchers.value,
       scalaCheck.value,
       fs2Core.value,
       catsEffect.value,
