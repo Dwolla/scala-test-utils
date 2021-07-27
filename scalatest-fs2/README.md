@@ -65,3 +65,18 @@ Note that the syntax above requires the [better-monadic-for](https://github.com/
 ## Concurrency Helpers
 
 `Pledge[F, A]` can be used as a pure-functional form of `scala.concurrent.Promise[A]`, and `completeThePledgeOnCancel` is a helper to construct a `Fiber[F, Unit]`, the cancelation of which will complete the given `Pledge[F, ?]`. This can be used to assert that a fiber obtained the normal way would be canceled if a timeout occurs, for example, without having to actually wait for a timeout.
+
+## `IOErrorSpec` example
+```scala
+class IOErrorSpecExample extends IOSpec with org.scalatest.Matchers with IOErrorSpec {
+
+  "MyGreatCode" should "throw an Exception" inIO {
+    shouldThrowAn[Exception] {
+        IO.raiseError(new Exception)
+    }
+  }
+
+}
+```
+
+This helper trait will ensure an exception of the specified type is thrown inside the `IO`.
