@@ -2,7 +2,7 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import sbt._
 
 object Dependencies {
-  private val scalaTestV = "3.2.0"
+  private val scalaTestV = "3.2.10"
 
   val logback = "ch.qos.logback" % "logback-classic" % "1.2.6"
   val specs2Core = "org.specs2" %% "specs2-core" % "4.7.0"
