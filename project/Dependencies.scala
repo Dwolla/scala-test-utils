@@ -14,7 +14,7 @@ object Dependencies {
   val scalaTestFlatSpec = Def.setting("org.scalatest" %%% "scalatest-flatspec" % scalaTestV)
   val scalaTestShouldMatchers = Def.setting("org.scalatest" %%% "scalatest-shouldmatchers" % scalaTestV)
   val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.15.0")
-  val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "2.4.6")
+  val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "2.5.9")
 
   private val catsEffectVersion = "2.2.0"
   val catsEffect = Def.setting("org.typelevel" %%% "cats-effect" % catsEffectVersion)
