@@ -10,7 +10,7 @@ object Dependencies {
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % "[2.4,)"
   val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaActor.revision
   val specs2Matchers = "org.specs2" %% "specs2-matcher-extra" % specs2Core.revision
-  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
+  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4"
   val scalaTestFlatSpec = Def.setting("org.scalatest" %%% "scalatest-flatspec" % scalaTestV)
   val scalaTestShouldMatchers = Def.setting("org.scalatest" %%% "scalatest-shouldmatchers" % scalaTestV)
   val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.15.0")
