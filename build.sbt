@@ -87,5 +87,5 @@ lazy val specs2 = (project in file("specs2"))
   .dependsOn(core)
 
 lazy val scalaTestUtils = (project in file("."))
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)
   .aggregate(core, specs2, specs2Akka, scalaTestFs2JVM, scalaTestFs2JS)
