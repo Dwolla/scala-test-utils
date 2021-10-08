@@ -59,7 +59,7 @@ lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVM
       catsEffect.value,
       catsEffectLaws.value,
     ),
-    addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.0"),
+    addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
   )
 
 lazy val scalaTestFs2JVM = scalaTestFs2.jvm
