@@ -2,7 +2,7 @@ import Dependencies._
 
 lazy val baseName = "TestUtils"
 
-lazy val SCALA_2_12 = "2.12.12"
+lazy val SCALA_2_12 = "2.12.15"
 lazy val SCALA_2_13 = "2.13.4"
 
 inThisBuild(List(
