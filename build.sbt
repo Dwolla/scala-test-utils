@@ -3,7 +3,7 @@ import Dependencies._
 lazy val baseName = "TestUtils"
 
 lazy val SCALA_2_12 = "2.12.15"
-lazy val SCALA_2_13 = "2.13.4"
+lazy val SCALA_2_13 = "2.13.6"
 
 inThisBuild(List(
   scalaVersion := SCALA_2_13,
@@ -25,7 +25,6 @@ inThisBuild(List(
   githubWorkflowPublishTargetBranches :=
     Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
   githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
-  githubWorkflowPublishPreamble += WorkflowStep.Use("olafurpg", "setup-gpg", "v3"),
   githubWorkflowPublish := Seq(
     WorkflowStep.Sbt(
       List("ci-release"),
@@ -88,5 +87,5 @@ lazy val specs2 = (project in file("specs2"))
   .dependsOn(core)
 
 lazy val scalaTestUtils = (project in file("."))
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)
   .aggregate(core, specs2, specs2Akka, scalaTestFs2JVM, scalaTestFs2JS)
