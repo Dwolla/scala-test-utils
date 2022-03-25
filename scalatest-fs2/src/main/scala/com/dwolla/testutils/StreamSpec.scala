@@ -9,6 +9,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent._
 import scala.language.reflectiveCalls
+import cats.effect.Temporal
 
 trait StreamSpec extends IOSpec with Matchers {
   import fs2._
@@ -35,7 +36,7 @@ object IOSpec {
 trait IOSpec extends AsyncFlatSpecLike {
 
   override implicit def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
-  implicit val timer: Timer[IO] = IO.timer(executionContext)
+  implicit val timer: Temporal[IO] = IO.timer(executionContext)
   implicit val cs: ContextShift[IO] = IO.contextShift(executionContext)
 
   implicit def toInIO[B <: InFutureTest](any: B): InIO[B] = new InIO(any)
