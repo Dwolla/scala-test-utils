@@ -5,7 +5,7 @@ object Dependencies {
   private val scalaTestV = "3.2.11"
 
   val logback = "ch.qos.logback" % "logback-classic" % "1.2.10"
-  val specs2Core = "org.specs2" %% "specs2-core" % "4.13.3"
+  val specs2Core = "org.specs2" %% "specs2-core" % "4.15.0"
   val specs2Mock = "org.specs2" %% "specs2-mock" % specs2Core.revision
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.6.19"
   val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaActor.revision
