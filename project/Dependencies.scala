@@ -4,7 +4,7 @@ import sbt._
 object Dependencies {
   private val scalaTestV = "3.2.11"
 
-  val logback = "ch.qos.logback" % "logback-classic" % "1.2.10"
+  val logback = "ch.qos.logback" % "logback-classic" % "1.2.11"
   val specs2Core = "org.specs2" %% "specs2-core" % "4.13.3"
   val specs2Mock = "org.specs2" %% "specs2-mock" % specs2Core.revision
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.6.19"
