@@ -3,8 +3,6 @@ queue_rules:
     conditions:
       - status-success=Build and Test (ubuntu-latest, 2.13.7, temurin@8)
       - status-success=Build and Test (ubuntu-latest, 2.12.15, temurin@8)
-      - status-success=Build and Test (ubuntu-latest, 2.13.7, temurin@11)
-      - status-success=Build and Test (ubuntu-latest, 2.12.15, temurin@11)
 
 pull_request_rules:
   - name: assign and label scala-steward's PRs
@@ -27,8 +25,6 @@ pull_request_rules:
       - author=scala-steward
       - status-success=Build and Test (ubuntu-latest, 2.13.7, temurin@8)
       - status-success=Build and Test (ubuntu-latest, 2.12.15, temurin@8)
-      - status-success=Build and Test (ubuntu-latest, 2.13.7, temurin@11)
-      - status-success=Build and Test (ubuntu-latest, 2.12.15, temurin@11)
     actions:
       queue:
         method: squash
