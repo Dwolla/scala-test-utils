@@ -15,7 +15,7 @@ object Dependencies {
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4"
   val scalaTestFlatSpec = Def.setting("org.scalatest" %%% "scalatest-flatspec" % scalaTestV)
   val scalaTestShouldMatchers = Def.setting("org.scalatest" %%% "scalatest-shouldmatchers" % scalaTestV)
-  val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.15.4")
+  val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.16.0")
   val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "2.5.10")
 
   private val catsEffectVersion = "2.5.4"
