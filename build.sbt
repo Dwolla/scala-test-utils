@@ -47,7 +47,7 @@ lazy val core = (project in file("core"))
     )
   )
 
-lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
+lazy val scalaTestFs2 = (crossProject(JVMPlatform, JSPlatform) in file("scalatest-fs2"))
   .settings(
     name := s"$baseName-scalatest-fs2",
     libraryDependencies ++= Seq(
@@ -57,8 +57,12 @@ lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVM
       fs2Core.value,
       catsEffect.value,
       catsEffectLaws.value,
+      SjsMacroTaskExecutor.value,
     ),
     addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
+  )
+  .jsSettings(
+    libraryDependencies += SjsSecureRandom.value,
   )
 
 lazy val scalaTestFs2JVM = scalaTestFs2.jvm
