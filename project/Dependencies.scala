@@ -4,7 +4,9 @@ import sbt._
 object Dependencies {
   private val scalaTestV = "3.2.11"
 
-  val logback = "ch.qos.logback" % "logback-classic" % "1.2.10"
+  val SjsMacroTaskExecutor = Def.setting("org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0")
+  val SjsSecureRandom = Def.setting("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0")
+  val logback = "ch.qos.logback" % "logback-classic" % "1.2.11"
   val specs2Core = "org.specs2" %% "specs2-core" % "4.13.3"
   val specs2Mock = "org.specs2" %% "specs2-mock" % specs2Core.revision
   val akkaActor = "com.typesafe.akka" %% "akka-actor" % "2.6.19"
@@ -13,7 +15,7 @@ object Dependencies {
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4"
   val scalaTestFlatSpec = Def.setting("org.scalatest" %%% "scalatest-flatspec" % scalaTestV)
   val scalaTestShouldMatchers = Def.setting("org.scalatest" %%% "scalatest-shouldmatchers" % scalaTestV)
-  val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.15.4")
+  val scalaCheck = Def.setting("org.scalacheck" %%% "scalacheck" % "1.16.0")
   val fs2Core = Def.setting("co.fs2" %%% "fs2-core" % "2.5.10")
 
   private val catsEffectVersion = "2.5.4"

@@ -3,29 +3,29 @@ import Dependencies._
 lazy val baseName = "TestUtils"
 
 lazy val SCALA_2_12 = "2.12.15"
-lazy val SCALA_2_13 = "2.13.7"
+lazy val SCALA_2_13 = "2.13.8"
 
-inThisBuild(List(
-  scalaVersion := SCALA_2_13,
-  crossScalaVersions := Seq(SCALA_2_13, SCALA_2_12),
-  organization := "com.dwolla",
-  description := "Test utilities for Scala projects",
-  homepage := Option(url("https://github.com/Dwolla/scala-test-utils")),
-  licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
-  startYear := Option(2015),
-  developers := List(
+ThisBuild / scalaVersion := SCALA_2_13
+ThisBuild / crossScalaVersions := Seq(SCALA_2_13, SCALA_2_12)
+ThisBuild / organization := "com.dwolla"
+ThisBuild / description := "Test utilities for Scala projects"
+ThisBuild / homepage := Option(url("https://github.com/Dwolla/scala-test-utils"))
+ThisBuild / licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+ThisBuild / startYear := Option(2015)
+ThisBuild / developers := List(
     Developer(
       "bpholt",
       "Brian Holt",
       "bholt@dwolla.com",
       url("https://dwolla.com")
     )
-  ),
-  githubWorkflowTargetTags ++= Seq("v*"),
-  githubWorkflowPublishTargetBranches :=
-    Seq(RefPredicate.StartsWith(Ref.Tag("v"))),
-  githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release"))),
-  githubWorkflowPublish := Seq(
+  )
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"))
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches :=
+    Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
+ThisBuild / githubWorkflowPublish := Seq(
     WorkflowStep.Sbt(
       List("ci-release"),
       env = Map(
@@ -35,8 +35,7 @@ inThisBuild(List(
         "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
       )
     )
-  ),
-))
+  )
 
 lazy val core = (project in file("core"))
   .settings(
@@ -47,7 +46,7 @@ lazy val core = (project in file("core"))
     )
   )
 
-lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVMPlatform, JSPlatform) crossType sbtcrossproject.CrossType.Pure in file("scalatest-fs2"))
+lazy val scalaTestFs2 = (crossProject(JVMPlatform, JSPlatform) in file("scalatest-fs2"))
   .settings(
     name := s"$baseName-scalatest-fs2",
     libraryDependencies ++= Seq(
@@ -57,8 +56,12 @@ lazy val scalaTestFs2 = (sbtcrossproject.CrossPlugin.autoImport.crossProject(JVM
       fs2Core.value,
       catsEffect.value,
       catsEffectLaws.value,
+      SjsMacroTaskExecutor.value,
     ),
     addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
+  )
+  .jsSettings(
+    libraryDependencies += SjsSecureRandom.value,
   )
 
 lazy val scalaTestFs2JVM = scalaTestFs2.jvm
