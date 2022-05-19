@@ -32,9 +32,7 @@ object IOSpec {
   type InFutureTest = {def in(fun : => Future[compatible.Assertion])(implicit pos: source.Position): Unit}
 }
 
-trait IOSpec extends AsyncFlatSpecLike {
-
-  override implicit def executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
+trait IOSpec extends AsyncFlatSpecLike with IOSpecPlatform {
   implicit val timer: Timer[IO] = IO.timer(executionContext)
   implicit val cs: ContextShift[IO] = IO.contextShift(executionContext)
 

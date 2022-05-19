@@ -56,7 +56,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} test
 
       - name: Compress target directories
-        run: tar cf targets.tar target scalatest-fs2/.js/target scalatest-fs2/.jvm/target specs2-akka/target core/target specs2/target project/target
+        run: tar cf targets.tar target scalatest-fs2/js/target scalatest-fs2/jvm/target specs2-akka/target core/target specs2/target project/target
 
       - name: Upload target directories
         uses: actions/upload-artifact@v2
