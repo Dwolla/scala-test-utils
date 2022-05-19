@@ -20,6 +20,7 @@ ThisBuild / developers := List(
       url("https://dwolla.com")
     )
   )
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("8"), JavaSpec.temurin("11"))
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishTargetBranches :=
     Seq(RefPredicate.StartsWith(Ref.Tag("v")))
