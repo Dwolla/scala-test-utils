@@ -2,7 +2,7 @@ import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import sbt._
 
 object Dependencies {
-  private val scalaTestV = "3.2.14"
+  private val scalaTestV = "3.2.15"
 
   val SjsMacroTaskExecutor = Def.setting("org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0")
   val SjsSecureRandom = Def.setting("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0")
