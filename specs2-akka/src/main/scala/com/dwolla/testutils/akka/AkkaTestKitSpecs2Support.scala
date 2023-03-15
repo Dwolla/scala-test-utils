@@ -13,5 +13,9 @@ class AkkaTestKitSpecs2Support(config: Option[Config] = None)(implicit execution
   def after: Unit = TestKit.shutdownActorSystem(system)
 
   private def safeTypeName: String = enclosingClassName(this.getClass)
-  @tailrec private def enclosingClassName(clazz: Class[_]): String = if (clazz.isLocalClass) enclosingClassName(clazz.getEnclosingClass) else clazz.getSimpleName
+  @tailrec private def enclosingClassName(clazz: Class[_]): String =
+    if (clazz.isLocalClass || clazz.isAnonymousClass)
+      enclosingClassName(clazz.getEnclosingClass)
+    else
+      clazz.getSimpleName
 }

@@ -43,7 +43,8 @@ lazy val core = (project in file("core"))
     libraryDependencies ++= Seq(
       logback,
       specs2Core % Test
-    )
+    ),
+    tpolecatScalacOptions ~= { _ -- Set(ScalacOptions.warnNonUnitStatement, ScalacOptions.warnUnusedNoWarn) },
   )
 
 lazy val scalaTestFs2 = (crossProject(JVMPlatform, JSPlatform) in file("scalatest-fs2"))
@@ -59,6 +60,7 @@ lazy val scalaTestFs2 = (crossProject(JVMPlatform, JSPlatform) in file("scalates
       SjsMacroTaskExecutor.value,
     ),
     addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
+    tpolecatScalacOptions ~= { _ -- Set(ScalacOptions.warnNonUnitStatement, ScalacOptions.warnUnusedNoWarn) },
   )
   .jsSettings(
     libraryDependencies += SjsSecureRandom.value,
@@ -74,6 +76,7 @@ lazy val specs2Akka = (project in file("specs2-akka"))
       akkaActor,
       akkaTestKit,
     ),
+    tpolecatScalacOptions ~= { _ -- Set(ScalacOptions.warnNonUnitStatement, ScalacOptions.warnUnusedNoWarn) },
   )
   .dependsOn(specs2)
 
@@ -86,6 +89,7 @@ lazy val specs2 = (project in file("specs2"))
       specs2Matchers % Test,
       scalaLogging % Test,
     ),
+    tpolecatScalacOptions ~= { _ -- Set(ScalacOptions.warnNonUnitStatement, ScalacOptions.warnUnusedNoWarn) },
   )
   .dependsOn(core)
 
