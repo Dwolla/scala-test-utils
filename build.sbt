@@ -3,7 +3,7 @@ import Dependencies._
 lazy val baseName = "TestUtils"
 
 lazy val SCALA_2_12 = "2.12.17"
-lazy val SCALA_2_13 = "2.13.10"
+lazy val SCALA_2_13 = "2.13.12"
 
 ThisBuild / scalaVersion := SCALA_2_13
 ThisBuild / crossScalaVersions := Seq(SCALA_2_13, SCALA_2_12)
