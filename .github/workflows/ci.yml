@@ -28,13 +28,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Java (temurin@8)
         if: matrix.java == 'temurin@8'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 8
@@ -53,7 +53,7 @@ jobs:
         run: tar cf targets.tar target scalatest-fs2/js/target scalatest-fs2/jvm/target specs2-akka/target core/target specs2/target project/target
 
       - name: Upload target directories
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: target-${{ matrix.os }}-${{ matrix.scala }}-${{ matrix.java }}
           path: targets.tar
@@ -70,13 +70,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Java (temurin@8)
         if: matrix.java == 'temurin@8'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 8
@@ -86,7 +86,7 @@ jobs:
         uses: sbt/setup-sbt@v1
 
       - name: Download target directories (2.13.10)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: target-${{ matrix.os }}-2.13.10-${{ matrix.java }}
 
@@ -96,7 +96,7 @@ jobs:
           rm targets.tar
 
       - name: Download target directories (2.12.20)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: target-${{ matrix.os }}-2.12.20-${{ matrix.java }}
 
